@@ -6,6 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "iri2026"
 version = "2026.0.0"
 description = "IRI-2026 International Reference Ionosphere from Python"
+authors = [{name = "Xiangning Chu", email = "xiangning.chu@lasp.colorado.edu"}]
+maintainers = [{name = "Xiangning Chu", email = "xiangning.chu@lasp.colorado.edu"}]
 keywords = ["thermosphere", "ionosphere"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",

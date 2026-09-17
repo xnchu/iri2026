@@ -1,0 +1,56 @@
+cff-version: 1.2.0
+message: >-
+  If you use iri2026, please cite this software and the IRI model papers listed
+  under "references". The IRI Working Group asks that any non-default JF switch
+  settings be stated in publications.
+type: software
+title: "iri2026: IRI-2026 International Reference Ionosphere from Python"
+version: 2026.0.0
+date-released: 2026-09-16
+license: MIT
+repository-code: https://github.com/xnchu/iri2026
+authors:
+  - family-names: Chu
+    given-names: Xiangning
+    email: xiangning.chu@lasp.colorado.edu
+    affiliation: Laboratory for Atmospheric and Space Physics (LASP), University of Colorado Boulder
+abstract: >-
+  Python wrapper (build-on-run CMake, xarray API, command-line plotting scripts)
+  around the IRI-2026 Fortran release of the International Reference Ionosphere.
+  Derived from the iri2020 wrapper by Michael Hirsch and the space-physics
+  organisation.
+references:
+  - type: article
+    title: "The International Reference Ionosphere model: A review and description of an ionospheric benchmark"
+    authors:
+      - family-names: Bilitza
+        given-names: Dieter
+      - family-names: Pezzopane
+        given-names: Michael
+      - family-names: Truhlik
+        given-names: Vladimir
+      - family-names: Altadill
+        given-names: David
+      - family-names: Reinisch
+        given-names: Bodo W.
+      - family-names: Pignalberi
+        given-names: Alessio
+    journal: Reviews of Geophysics
+    volume: 60
+    issue: 4
+    year: 2022
+    doi: 10.1029/2022RG000792
+  - type: software
+    title: "IRI-2026 Fortran release"
+    authors:
+      - name: "Dieter Bilitza and the COSPAR/URSI IRI Working Group"
+    url: https://irimodel.org/IRI-2026/
+    year: 2026
+  - type: software
+    title: "iri2020: IRI2020 ionosphere model from Python and Matlab"
+    authors:
+      - family-names: Hirsch
+        given-names: Michael
+      - name: "space-physics organisation"
+    url: https://github.com/space-physics/iri2020
+    doi: 10.5281/zenodo.240895
