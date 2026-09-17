@@ -73,17 +73,30 @@ def IRI(time: str | datetime, altkmrange: list[float], glat: float, glon: float)
     arr = np.genfromtxt(io.StringIO(ret), skip_header=Nalt)
     assert arr.ndim == 1 and arr.size == 100, "bad text data output format"
     # %% assemble output
+    # OARR indices below are 0-based (Fortran OARR(n) -> arr[n-1]); see the OARR
+    # table at the top of IRI_SUB in src/irisub.for (IRI-2026).
     iono = xarray.Dataset(
         dsf,
         coords={"time": [time], "alt_km": altkm, "glat": glat, "glon": glon},
-        attrs={"f107": arr[40], "ap": arr[51]},
+        attrs={"f107": arr[40], "ap": arr[51]},  # OARR(41) F10.7 daily, OARR(52) daily ap
     )
 
+    # OARR(1:6)
     for i, p in enumerate(["NmF2", "hmF2", "NmF1", "hmF1", "NmE", "hmE"]):
         iono[p] = (("time"), [arr[i]])
 
-    iono["TEC"] = (("time"), [arr[36]])
-    iono["EqVertIonDrift"] = (("time"), [arr[43]])
-    iono["foF2"] = (("time"), [arr[99]])
+    iono["TEC"] = (("time"), [arr[36]])  # OARR(37), filled by IRITEC in the driver
+    iono["EqVertIonDrift"] = (("time"), [arr[43]])  # OARR(44) m/s
+    iono["foF2"] = (("time"), [arr[99]])  # OARR(100), local patch in irisub.for
+    # new in IRI-2026: occurrence probabilities in [0, 1]; the Fortran code returns
+    # -1 when the model is not applicable (e.g. bubbles: daytime or |glat| > 45),
+    # which is reported as NaN here.
+    iono["EsProb"] = (("time"), [_prob(arr[90])])  # OARR(91) sporadic-E probability
+    iono["BubbleProb"] = (("time"), [_prob(arr[91])])  # OARR(92) IBP-2023 bubble probability
 
     return iono
+
+
+def _prob(x: float) -> float:
+    """occurrence probability in [0, 1]; negative means not computed -> NaN"""
+    return float(x) if x >= 0 else float("nan")
