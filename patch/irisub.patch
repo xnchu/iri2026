@@ -1,0 +1,18 @@
+--- a/src/iri2026/src/irisub.for
++++ b/src/iri2026/src/irisub.for
+@@ -1388,6 +1388,7 @@
+ C 350-510km, LT: 18 to 6, -45 to +45 deg latitude)
+ c         
+          ibprob=-1.0
++         xibp=-1.0    !< iri2026: was uninitialised when IBP is skipped
+          if(.not.jf(38).or.abs(LATI).gt.45.0) goto 2356
+          if(hour.lt.18.0.and.hour.gt.6.0) goto 2356
+            CALL IBPLOD
+@@ -2666,6 +2667,7 @@
+       OARR(91)=ESP	! sporadic-E occurence probability (0-1)		
+       OARR(92)=XIBP	! plasma bubble occ. probability (0-1)		
+ 
++      oarr(100) = foF2  !< Michael Hirsch (iri2020); kept for iri2026
+ 3330  CONTINUE
+ 
+        icalls=icalls+1

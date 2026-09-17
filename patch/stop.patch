@@ -1,0 +1,54 @@
+--- a/src/iri2026/src/igrf.for
++++ b/src/iri2026/src/igrf.for
+@@ -839,8 +839,7 @@
+         READ (IU, *, IOSTAT=IER, ERR=999) (GH(i),i=1,nm) 
+         goto 888 
+                
+-999     if (mess) write(konsol,100) FOUT
+-100     FORMAT('Error while reading ',A13)
++999     error stop 'Error while reading ' // FOUT
+ 
+ 888     CLOSE (IU)                                                                                                                                   
+         RETURN                                                       
+--- a/src/iri2026/src/irifun.for
++++ b/src/iri2026/src/irifun.for
+@@ -9241,7 +9241,7 @@
+      &  ' and IG12'/5x,'currently only covers the time period',
+      &  ' (yymm) : ',I6,'-',I6)
+                nmonth=-1
+-               return
++               error stop "IG_RZ.DAT out of date index range"
+                endif
+ 
+         iyst=iymst/100
+@@ -25629,6 +25629,8 @@
+ C
+       OPEN(UNIT=IU,FILE='ibp_emp_coeffs.dat',STATUS='OLD',
+      &FORM='FORMATTED',IOSTAT=IOS)
++      IF(IOS.NE.0) error stop
++     & 'The file ibp_emp_coeffs.dat is not in your directory.'
+ C
+       READ(IU,*,IOSTAT=IOS)KEY,TXT
+       READ(IU,*,IOSTAT=IOS)KEY,N1
+--- a/src/iri2026/src/irisub.for
++++ b/src/iri2026/src/irisub.for
+@@ -660,7 +660,7 @@
+ c-web- special for web version
+ c-web- messages should be turned off with mess=jf(34)=.false. 
+ 
+-        KONSOL=6
++        KONSOL=0
+         if(.not.jf(12).and.mess) then
+            konsol=11
+            open(11,file='messages.txt')
+@@ -1467,9 +1467,7 @@
+ 
+         GOTO 4291
+         
+-8448    WRITE(konsol,8449) FILNAM
+-8449    FORMAT(1X////,
+-     &    ' The file ',A30,'is not in your directory.')
++8448    error stop 'The file ' // FILNAM // ' is not in your directory.'
+         GOTO 3330
+ C
+ C LINEAR INTERPOLATION IN SOLAR ACTIVITY. IG12 used for foF2
