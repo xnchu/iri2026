@@ -1,0 +1,12 @@
+.venv/
+build/
+build_check/
+__pycache__/
+*.egg-info/
+*.o
+*.mod
+iri2026_driver
+iri2026_driver.exe
+messages.txt
+.pytest_cache/
+.mypy_cache/
