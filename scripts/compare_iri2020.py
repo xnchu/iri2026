@@ -15,6 +15,7 @@ derived from iri2020 by Michael Hirsch / space-physics.
 from __future__ import annotations
 
 import argparse
+import importlib.metadata
 import subprocess
 import sys
 import time
@@ -25,6 +26,14 @@ import numpy as np
 import xarray
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _version(pkg: str) -> str:
+    try:
+        return importlib.metadata.version(pkg)
+    except importlib.metadata.PackageNotFoundError:
+        return "unknown"
+
 
 YEARS = [2000, 2003, 2008, 2012, 2014, 2016, 2019]
 MONTHS = [1, 4, 7, 10]
@@ -37,7 +46,7 @@ PROFILE = ["ne", "Tn", "Ti", "Te", "nO+", "nH+", "nHe+", "nO2+", "nNO+", "nCI", 
 SCALARS = ["NmF2", "hmF2", "NmF1", "hmF1", "NmE", "hmE", "TEC", "EqVertIonDrift", "foF2"]
 
 # (variable, altitude selection, median threshold %, p95 threshold %, note) ; None = report only
-# LOOP_PROMPT acceptance thresholds, with two p95 relaxations justified in
+# Acceptance thresholds, with two p95 relaxations justified in
 # docs/comparison_iri2020.md
 # (bottomside F1/HZ and topside IRIcor2 changes in irisub.for 2020.19-2020.25, see JUSTIFICATION).
 THRESHOLDS: list[tuple[str, str, float | None, float | None, str]] = [
@@ -158,7 +167,7 @@ def run_matrix(mod, cases_: list[dict], altkm=ALTKM) -> xarray.Dataset:
     )
     ds["error"] = ("case", np.array(err, dtype=object))
     ds.attrs["package"] = mod.__name__
-    ds.attrs["package_file"] = mod.__file__
+    ds.attrs["package_version"] = _version(mod.__name__)
     return ds
 
 
@@ -229,8 +238,8 @@ def write_markdown(
         f"Generated {datetime.now():%Y-%m-%d %H:%M} by `scripts/compare_iri2020.py` "
         f"(run time {elapsed / 60:.1f} min).",
         "",
-        f"Reference: `{ref.attrs['package']}` at `{ref.attrs['package_file']}`  ",
-        f"This package: `{new.attrs['package']}` at `{new.attrs['package_file']}`",
+        f"Reference: `{ref.attrs['package']}` version {_version(ref.attrs['package'])}  ",
+        f"This package: `{new.attrs['package']}` version {_version(new.attrs['package'])}",
         "",
         "## Matrix",
         "",
@@ -357,7 +366,7 @@ def main():
         "-o",
         "--outdir",
         type=Path,
-        default=Path("/glade/derecho/scratch/xnchu/iri2026_work/compare"),
+        default=ROOT / "build" / "compare",
     )
     p.add_argument(
         "--reuse", action="store_true", help="reuse netCDF results in outdir if present"

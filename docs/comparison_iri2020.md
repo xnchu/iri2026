@@ -1,9 +1,9 @@
 # Comparison of iri2026 with iri2020
 
-Generated 2026-09-17 00:11 by `scripts/compare_iri2020.py` (run time 0.0 min).
+Generated 2026-09-17 10:30 by `scripts/compare_iri2020.py` (run time 0.0 min).
 
-Reference: `iri2020` at `/glade/derecho/scratch/xnchu/iri2026_work/iri2020/src/iri2020/__init__.py`  
-This package: `iri2026` at `/glade/u/home/xnchu/orca/projects/iri2026/src/iri2026/__init__.py`
+Reference: `iri2020` version 1.0.0  
+This package: `iri2026` version 2026.0.0
 
 ## Matrix
 
