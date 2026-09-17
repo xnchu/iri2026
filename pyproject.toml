@@ -20,6 +20,10 @@ dynamic = ["readme"]
 requires-python = ">=3.9"
 dependencies = ["numpy", "xarray", "python-dateutil"]
 
+[project.urls]
+Homepage = "https://github.com/xnchu/iri2026"
+Upstream = "https://irimodel.org/IRI-2026/"
+
 [project.optional-dependencies]
 tests = ["pytest"]
 lint = ["flake8", "flake8-bugbear", "flake8-builtins", "flake8-blind-except", "mypy", "types-python-dateutil"]
