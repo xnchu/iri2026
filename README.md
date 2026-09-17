@@ -129,7 +129,10 @@ of the Fortran sources:
   B1 limit 1.2, `HZ = 2(HF1+hst)/3`, F1 layer omitted if `NmF1 < 1.2 NmE` or
   `NmF1 > 0.8 NmF2` or `NmF1 < XE2(HEF)`, Ne(h) capped at NmF2 above hmF2. These change the
   electron density between the E and F2 peaks in some conditions.
-* Fill value -1 for unused `OARR` slots; `OARR(3:4)` (NmF1, hmF1) are 0 when no F1 layer.
+* Fill value -1 for unused `OARR` slots. Upstream IRI-2026 writes `OARR(3)` (NmF1) at every
+  daytime hour, even when the F1 layer has been omitted from the profile (F1 occurrence
+  probability below 0.5 or the NmE/NmF2 consistency checks); this package restores the
+  iri2020 behaviour in `patch/irisub.patch`, so NmF1 and hmF1 are -1 when there is no F1 layer.
 
 The comparison of this package with iri2020 over 2000-2019 is documented in
 [docs/comparison_iri2020.md](./docs/comparison_iri2020.md) and
@@ -157,8 +160,10 @@ range of `ig_rz.dat` raises `subprocess.CalledProcessError` from the driver's
 
 ## Local modifications of the Fortran sources
 
-`patch/irisub.patch` stores foF2 in `OARR(100)` (as iri2020 did) and initialises the bubble
-probability when the IBP model is skipped. `patch/stop.patch` replaces silent messages on
+`patch/irisub.patch` stores foF2 in `OARR(100)` (as iri2020 did), initialises the bubble
+probability when the IBP model is skipped, and writes NmF1 and hmF1 to `OARR(3:4)` only when
+an F1 layer is present (`if(f1reg)`, as in IRI-2020; upstream IRI-2026 reports the foF1-model
+value even when the layer is omitted, so NmF1 and hmF1 were inconsistent). `patch/stop.patch` replaces silent messages on
 missing data files or an out-of-range date with `error stop`, and sends messages to stderr.
 Everything else is the pristine IRI-2026 release; `irirtam.for` (real-time IRI) is not
 included because nothing in the model calls it.

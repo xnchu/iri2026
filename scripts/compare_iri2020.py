@@ -86,7 +86,7 @@ The remaining differences are in the *shape* of the Ne profile and follow from c
 Change-log lines quoted from the IRI-2026 `irisub.for` header:
 
 * Bottomside between the E and F2 peaks (largest differences at 150-250 km, F1/valley region;
-  NmF1 > 0 in 66 cases with iri2020 vs 280 with iri2026):
+  the F1 layer occurrence count is reported above the Justification section):
   * `C 2020.24 11/29/24 B1.GE.0.6 changed to B1.GE.1.2 ........ B. Reid`
   * `C 2020.24 11/29/24 Avoid HF1.lt.hst ...................... B. Reid`
   * `C 2020.24 11/29/24 Changed HZ to 2*(HF1+hst)/3`

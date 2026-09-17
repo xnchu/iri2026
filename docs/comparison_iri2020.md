@@ -1,6 +1,6 @@
 # Comparison of iri2026 with iri2020
 
-Generated 2026-09-17 10:30 by `scripts/compare_iri2020.py` (run time 0.0 min).
+Generated 2026-09-17 11:08 by `scripts/compare_iri2020.py` (run time 19.0 min).
 
 Reference: `iri2020` version 1.0.0  
 This package: `iri2026` version 2026.0.0
@@ -64,7 +64,7 @@ are skipped.
 | (-30.0, 20.0) | 4.38 / 27.3 / 231 | 11.5 / 42 / 73.4 | 3.41 / 10.5 / 12.4 |
 | (-76.8, 166.7) | 0 / 15.8 / 190 | 0 / 0.00121 / 0.00358 | 1.28 / 4 / 4.66 |
 
-F1 layer present (NmF1 > 0): iri2020 66 cases, iri2026 280 cases.
+F1 layer present (NmF1 > 0): iri2020 66 cases, iri2026 59 cases.
 
 ## Justification of the relaxed thresholds
 

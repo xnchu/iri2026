@@ -2586,8 +2586,8 @@ C
       IF(NODEN) GOTO 6192
       OARR(1)=NMF2S	! F2-peak density in m-3
       OARR(2)=HMF2	! F2-peak height in km
-      OARR(3)=NMF1	! F1-peak density in m-3
-      OARR(4)=XHMF1	! F1-peak height in km
+      if(f1reg) OARR(3)=NMF1	! F1-peak density in m-3 (iri2026: -1 if no F1 layer)
+      if(f1reg) OARR(4)=XHMF1	! F1-peak height in km (iri2026: -1 if no F1 layer)
       OARR(5)=NMES	! E-peak density in m-3
       OARR(6)=HME	! E-peak height in km
       OARR(7)=NMD	! density in m-3 of D-region inflection point 
