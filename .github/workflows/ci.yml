@@ -7,7 +7,12 @@ on:
   push:
     paths:
     - "**.py"
+    - "**.f90"
+    - "**.for"
+    - "**/CMakeLists.txt"
+    - "pyproject.toml"
     - ".github/workflows/ci.yml"
+  pull_request:
   workflow_dispatch:
 
 # avoid wasted runs
@@ -18,7 +23,7 @@ concurrency:
 jobs:
 
   core:
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     strategy:
       matrix:
@@ -34,19 +39,20 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python }}
+    - uses: astral-sh/setup-uv@v5
 
-    - run: pip install .[tests,lint]
-      timeout-minutes: 2
+    - run: uv pip install --system .[tests,lint]
+      timeout-minutes: 3
 
     - run: flake8
     - run: mypy
 
-    - run: pytest
+    - run: pytest -v
 
   windows:
       needs: core
       runs-on: windows-latest
-      timeout-minutes: 10
+      timeout-minutes: 15
 
       steps:
       - uses: msys2/setup-msys2@v2
@@ -63,10 +69,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: astral-sh/setup-uv@v5
 
       - uses: actions/checkout@v4
 
-      - run: python -m pip install .[tests,lint]
+      - run: uv pip install --system .[tests,lint]
 
       - run: flake8
       - run: mypy
